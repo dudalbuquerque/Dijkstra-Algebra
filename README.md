@@ -14,4 +14,12 @@ Tem como objetivo identificar o menor caminho de uma matriz e calcular a distân
 
 > ### Distância de Manhattan
 >
->> 
+>>
+
+## Bibliografia
+
+| Left columns  | Right columns |
+| ------------- |:-------------:|
+| left foo      | right foo     |
+| left bar      | right bar     |
+| left baz      | right baz     |
