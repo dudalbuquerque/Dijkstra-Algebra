@@ -1,1 +1,1 @@
-# Dijkstra--lgebra
+# Dijkstra-Algebra
