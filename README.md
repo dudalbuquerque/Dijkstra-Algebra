@@ -11,3 +11,7 @@ Tem como objetivo identificar o menor caminho de uma matriz e calcular a distân
 > ### Distância Euclidiana
 >
 >> 
+
+> ### Distância de Manhattan
+>
+>> 
