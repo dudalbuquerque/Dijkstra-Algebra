@@ -13,6 +13,7 @@ PRETO = (0, 0, 0,)
 AZUL = (0, 0, 200)
 VERDE = (0, 255, 0) 
 VERMELHO = (255, 0, 0) 
+AMARELO = (200, 200, 0)
 
 #dimensões do mapa
 LARGURA = 500
@@ -97,9 +98,17 @@ def desenhar_caminho(caminho=[]):
         pygame.draw.rect(screen, AZUL, (coordenada[1] * TAMANHO_CELULA, coordenada[0] * TAMANHO_CELULA, TAMANHO_CELULA, TAMANHO_CELULA))
 
 def desenhar_linha(entrada, saida):
-    inicio_linha = (entrada[1] * TAMANHO_CELULA, entrada[0] * TAMANHO_CELULA)  
+    inicio_linha = (entrada[1]* TAMANHO_CELULA, entrada[0] * TAMANHO_CELULA)  
     fim_linha = (saida[1] * TAMANHO_CELULA + TAMANHO_CELULA - 1, saida[0] * TAMANHO_CELULA + TAMANHO_CELULA - 1)
-    pygame.draw.line(screen, (255, 0, 0), inicio_linha, fim_linha, 3) 
+    pygame.draw.line(screen, (255, 0, 0), inicio_linha, fim_linha, 5) 
+
+def desenhar_lateral_vertica(entrada, saida):
+    ponto_inicial = (entrada[0] * TAMANHO_CELULA, entrada[1] * TAMANHO_CELULA )
+    ponto_intermediario = (entrada[0] * TAMANHO_CELULA, (saida[1]+1) * TAMANHO_CELULA )
+    ponto_final = ((saida[0]+1) * TAMANHO_CELULA, (saida[1]+1) * TAMANHO_CELULA)
+    pygame.draw.line(screen, VERDE, ponto_inicial, ponto_intermediario,6)
+    pygame.draw.line(screen, VERDE, ponto_intermediario, ponto_final, 5)
+    
 
 #fonte da letra
 fonte = pygame.font.SysFont(None, 20)
@@ -149,6 +158,7 @@ while rodando:
         desenhar_caminho(menor_caminho)
         desenhar_linha(entrada, saida) 
         mostrar_distancias(distancia_dijkstra, distancia_linha_, distancia_manhattan_)  
+        desenhar_lateral_vertica(entrada, saida)
 
     pygame.display.update()
 pygame.quit()
