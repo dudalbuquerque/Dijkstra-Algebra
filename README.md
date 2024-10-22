@@ -4,7 +4,7 @@ Este projeto é feito para uma disciplina da faculdade
 
 ## Objetivo 
 
-Tem como objetivo identificar o menor caminho de uma matriz e calcular a distância euclidiana e a distância de Manhattan
+Tem como objetivo identificar o menor caminho de uma matriz utilizando a distância euclidiana e calcular esta mesma distância e a de Manhattan
 
 ### Assuntos
 
@@ -18,8 +18,8 @@ Tem como objetivo identificar o menor caminho de uma matriz e calcular a distân
 
 ## Bibliografia
 
-| Left columns  | Right columns |
-| ------------- |:-------------:|
-| left foo      | right foo     |
-| left bar      | right bar     |
-| left baz      | right baz     |
+| ## Bibliografia | ## Tipo |
+| ------------- | ------------- |
+| shaffer    |  |
+| Entendendo Algoritmos: Um Guia Ilustrado Para Programadores e Outros Curiosos      |
+| left baz      |
