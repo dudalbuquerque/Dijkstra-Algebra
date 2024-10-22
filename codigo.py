@@ -1,9 +1,9 @@
 import pygame
 import numpy as np
 import heapq
-import math  # Para usar a raiz quadrada
+import math
 
-# Configurações do Pygame
+
 pygame.init()
 
 # 1 = parede e 0 = caminho livre
@@ -24,7 +24,7 @@ labirinto = np.array(Matriz_labirinto)
 entrada = (0, 0)
 saida = (9, 9)
 
-direcoes = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # Movimentos possíveis: cima, baixo, esquerda, direita
+direcoes = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # Movimentos: cima, baixo, esquerda, direita
 
 def vizinhos(labirinto, coordenada_atual):
     x, y = coordenada_atual
@@ -52,14 +52,14 @@ def distancia_manhattan(P1, P2):
 def dijkstra(labirinto, entrada, saida):
     distancias = np.full(labirinto.shape, np.inf)
     distancias[entrada] = 0
-    Min_heap = [(0, entrada)]  # Fila com (distância, nó)
+    Min_heap = [(0, entrada)] 
     caminho = {}
 
     while Min_heap:
         dist_atual, coord_atual = heapq.heappop(Min_heap)
 
         if coord_atual == saida:
-            break  # Encontrou o destino
+            break 
 
         for vizinho in vizinhos(labirinto, coord_atual):
             nova_dist = dist_atual + distancia_euclidiana(coord_atual, vizinho)
@@ -86,6 +86,8 @@ TAMANHO_CELULA = 50
 
 fonte = pygame.font.SysFont(None, 20)
 
+
+#Mostrar o labirinto 
 def desenhar_mapa(labirinto, entrada, saida):
     for i in range(labirinto.shape[0]):
         for j in range(labirinto.shape[1]):
@@ -98,14 +100,12 @@ def desenhar_path(caminho=[]):
     for coordenada in caminho:
         pygame.draw.rect(screen, COR_CAMINHO, (coordenada[1] * TAMANHO_CELULA, coordenada[0] * TAMANHO_CELULA, TAMANHO_CELULA, TAMANHO_CELULA))
 
-# Nova função que desenha a linha do primeiro pixel da célula de entrada ao último pixel da célula de saída
 def desenhar_linha(entrada, saida):
-    # Primeiro pixel da entrada e último pixel da saída
-    entrada_pixel = (entrada[1] * TAMANHO_CELULA, entrada[0] * TAMANHO_CELULA)  # Canto superior esquerdo
-    saida_pixel = (saida[1] * TAMANHO_CELULA + TAMANHO_CELULA - 1, saida[0] * TAMANHO_CELULA + TAMANHO_CELULA - 1)  # Canto inferior direito
+    entrada_pixel = (entrada[1] * TAMANHO_CELULA, entrada[0] * TAMANHO_CELULA)  
+    saida_pixel = (saida[1] * TAMANHO_CELULA + TAMANHO_CELULA - 1, saida[0] * TAMANHO_CELULA + TAMANHO_CELULA - 1)  
     pygame.draw.line(screen, (255, 0, 0), entrada_pixel, saida_pixel, 3)  # Linha vermelha
 
-# Mostrar distâncias abaixo do labirinto
+
 def mostrar_distancias(distancia_real, distancia_linha_reta, distancia_manhattan_reta):
     texto_real = fonte.render(f"Distância do Caminho: {distancia_real:.2f}", True, (0, 0, 0))
     texto_linha = fonte.render(f"Distância em Linha Reta (Euclidiana): {distancia_linha_reta:.2f}", True, (0, 0, 0))
@@ -114,15 +114,14 @@ def mostrar_distancias(distancia_real, distancia_linha_reta, distancia_manhattan
     screen.blit(texto_linha, (10, ALTURA_LABIRINTO + 50))
     screen.blit(texto_manhattan, (10, ALTURA_LABIRINTO + 80))
 
-# Ajuste a altura da tela para comportar o labirinto e as distâncias
+
 ALTURA_TOTAL = ALTURA_LABIRINTO + ALTURA_DISTANCIAS
 screen = pygame.display.set_mode((LARGURA, ALTURA_TOTAL))
 pygame.display.set_caption('Dijkstra - Pygame')
 
-# Usar Dijkstra com distância Euclidiana
 caminho, distancias = dijkstra(labirinto, entrada, saida)
 
-# Reconstruir o caminho mais curto da saída para a entrada
+# Refaz o caminho mais curto da saída para a entrada
 caminho_curto = []
 atual = saida
 while atual != entrada:
@@ -131,15 +130,13 @@ while atual != entrada:
 caminho_curto.append(entrada)
 caminho_curto.reverse()
 
-# Calculando distâncias de diferentes formas
-distancia_real = distancias[saida]  # Caminho real calculado pelo Dijkstra
+# Calculando distâncias
+distancia_dijkstra = distancias[saida]  
 distancia_linha_reta = distancia_euclidiana(entrada, saida)
 distancia_manhattan_reta = distancia_manhattan(entrada, saida)
 
-# Estado de controle para alternar entre as exibições: 0 = somente início e fim, 1 = caminho, 2 = linha reta + distâncias
+# Estado de controle das exibições: 0 = somente início e fim, 1 = caminho, 2 = linha reta + distâncias
 estado = 0
-
-# Loop principal
 rodando = True
 while rodando:
     for evento in pygame.event.get():
@@ -147,19 +144,18 @@ while rodando:
             rodando = False
         if evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_SPACE:
-                estado = (estado + 1) % 3  # Alterna entre 0, 1 e 2
+                estado = (estado + 1) % 3 
 
-    screen.fill((255, 255, 255))  # Fundo branco
+    screen.fill((255, 255, 255))
 
-    # Desenhar o labirinto
     desenhar_mapa(labirinto, entrada, saida)
 
-    # Exibir baseando-se no estado
     if estado == 1:
-        desenhar_path(caminho_curto)  # Exibe o caminho
+        desenhar_path(caminho_curto)  
     elif estado == 2:
-        desenhar_linha(entrada, saida)  # Exibe a linha reta
-        mostrar_distancias(distancia_real, distancia_linha_reta, distancia_manhattan_reta)  # Exibe as distâncias
+        desenhar_path(caminho_curto)
+        desenhar_linha(entrada, saida) 
+        mostrar_distancias(distancia_dijkstra, distancia_linha_reta, distancia_manhattan_reta)  
 
     pygame.display.update()
 
